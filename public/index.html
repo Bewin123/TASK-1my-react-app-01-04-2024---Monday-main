@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Price Card Task</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #064cfe;
+            /* Set background color to light gray */
+        }
+
+        .card-title,
+        .card-subtitle {
+            color: #007bff;
+            /* Set heading color to blue */
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="text-center">PRICE CARD</h1>
+    <div id="root"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+
+    <script type="text/babel">
+        // PriceCard component definition
+        function PriceCard({ plan, price, initialFeatures }) {
+            const [features, setFeatures] = React.useState(initialFeatures);
+
+            // Function to update features in real-time
+            const updateFeatures = () => {
+                const newFeatures = [...features];
+                const randomIndex = Math.floor(Math.random() * newFeatures.length);
+                newFeatures[randomIndex] = 'New Offer ' + (Math.floor(Math.random() * 1000));
+                setFeatures(newFeatures);
+            };
+
+            // Function to redirect to PayPal website
+            const redirectToPayPal = () => {
+                // Replace 'YOUR_PAYPAL_PAYMENT_LINK' with your actual PayPal payment link
+                window.location.href = 'https://www.paypal.com'; // Example link
+            };
+
+            // Render PriceCard component
+            return (
+                <div className="card col-md-4">
+                    <div className="card-body">
+                        <h5 className="card-title">{plan}</h5>
+                        <h6 className="card-subtitle mb-2 text-muted">{price}</h6>
+                        <ul className="list-group list-group-flush">
+                            {features.map((feature, index) => (
+                                <li key={index} className="list-group-item">{feature}</li>
+                            ))}
+                        </ul>
+                        <button className="btn btn-success" onClick={redirectToPayPal}>Start Trial</button>
+                    </div>
+                </div>
+            );
+        }
+
+        // Render PriceCard component
+        ReactDOM.render(
+            <div className="container mt-5">
+                <div className="card-deck">
+                    <PriceCard
+                        plan="FREE"
+                        price="$0/month"
+                        initialFeatures={["Free shipping", "Discounts", "Exclusive deals", "Gift cards", "Cashback", "Rewards points", "Free returns"]}
+                    />
+                    <PriceCard
+                        plan="PLUS"
+                        price="$9/month"
+                        initialFeatures={["Priority support", "Extended warranty", "Unlimited access", "Premium content", "Ad-free experience", "Early access", "Event invitations"]}
+                    />
+                    <PriceCard
+                        plan="PRO"
+                        price="$49/month"
+                        initialFeatures={["Personal shopper", "VIP access", "Customizable packages", "Luxury gifts", "Concierge service", "Private events", "Exclusive discounts"]}
+                    />
+                </div>
+            </div>,
+            document.getElementById('root')
+        );
+    </script>
+</body>
+
+</html>
